@@ -53,3 +53,22 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
+
+/* Directional step transitions (wizards, carousels). */
+@keyframes slide-in-from-right {
+  from { opacity: 0; transform: translateX(2rem); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-in-from-left {
+  from { opacity: 0; transform: translateX(-2rem); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-step-forward { animation: slide-in-from-right 300ms ease-out; }
+.animate-step-back { animation: slide-in-from-left 300ms ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-step-forward,
+  .animate-step-back { animation: none; }
+}

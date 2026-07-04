@@ -1,327 +1,236 @@
-/**
- * ============================================================================
- * Seller Verification MSW Mock Handlers (PERFECT SEQUENTIAL FLOW)
- * ============================================================================
- * Bu fayl frontendning so'rovlariga 100% moslashtirilgan.
- * Inputlar qotib qolmasligi uchun boshlang'ich holatlar 'idle' yoki 'unverified' qilingan.
- */
-
 import { http, HttpResponse } from 'msw'
+import { env } from '@/config/env'
 
-const API = '*/api/v1'
+// Backend-shaped (snake_case) responses so the api mappers run in dev exactly
+// as in prod. Stateful sequential flow: each successful write advances
+// current_step, mirroring the real backend's wizard state machine.
 
-/* ============================================================================
- * 1. FAKE DATABASE (Boshlang'ich toza holat)
- * ============================================================================
- */
+const BASE = env.apiBaseUrl
 
-let sellerStatus = {
-  completed_steps: 0,
-  total_steps: 7,
-  progress_percentage: 0,
-  current_step: 'personal_info', // Jarayon aynan shu yerdan boshlanadi
-  verification_status: 'unverified',
-  verified: false,
+const STEP_FLOW = [
+  'personal_info',
+  'email',
+  'passport',
+  'inn',
+  'bank',
+  'company',
+  'certificate',
+  'completed',
+] as const
+
+const TOTAL_STEPS = STEP_FLOW.length - 1
+const MOCK_OTP = '123456'
+
+interface MockCertificate {
+  id: string
+  file_name: string
+  original_name: string
+  mime_type: string
+  file_size: number
+  document_type: string
+  verified: boolean
+  uploaded_at: string
 }
 
-let sellerProfile = {
-  id: 'seller-1',
-  full_name: '',
-  phone: '',
-  email: '',
-  address: '',
-  verification_status: 'unverified',
-  created_at: new Date().toISOString(),
-  updated_at: new Date().toISOString(),
+function initialState() {
+  return {
+    stepIndex: 0,
+    profile: {
+      id: 'seller-1',
+      full_name: '',
+      phone: '',
+      email: '',
+      address: '',
+      verification_status: 'unverified',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    },
+    email: {
+      status: 'idle',
+      verified: false,
+      email: '',
+      verified_at: null as string | null,
+    },
+    passport: {
+      status: 'idle',
+      full_name: null as string | null,
+      passport_number: null as string | null,
+      verified_at: null as string | null,
+      reject_reason: null as string | null,
+    },
+    inn: {
+      status: 'idle',
+      verified: false,
+      inn: '',
+      company_name: '',
+      owner_name: '',
+      checked_at: null as string | null,
+    },
+    bank: null as Record<string, unknown> | null,
+    company: null as Record<string, unknown> | null,
+    certificates: [] as MockCertificate[],
+  }
 }
 
-let emailStatus = {
-  verified: false,
-  email: '',
-  verified_at: null as string | null,
-  status: 'idle', // 'pending' EMAS, input ochiq turishi uchun
+let db = initialState()
+
+// Status is DERIVED from progress so list and summary can never disagree.
+function sellerStatus() {
+  const completed = db.stepIndex
+  const done = db.stepIndex >= TOTAL_STEPS
+  return {
+    current_step: STEP_FLOW[db.stepIndex],
+    completed_steps: Math.min(completed, TOTAL_STEPS),
+    total_steps: TOTAL_STEPS,
+    progress_percentage: Math.round((Math.min(completed, TOTAL_STEPS) / TOTAL_STEPS) * 100),
+    verification_status: done ? 'verified' : 'unverified',
+    verified: done,
+  }
 }
 
-let passportStatus = {
-  verified: false,
-  status: 'idle', // 'pending' EMAS, input ochiq turishi uchun
-  full_name: null as string | null,
-  passport_number: null as string | null,
-  verified_at: null as string | null,
-  reject_reason: null as string | null,
+/** Advance the wizard past `step` if the flow is currently on it. */
+function completeStep(step: (typeof STEP_FLOW)[number]) {
+  const idx = STEP_FLOW.indexOf(step)
+  if (db.stepIndex === idx) db.stepIndex = idx + 1
 }
-
-let innStatus = {
-  verified: false,
-  inn: '',
-  company_name: '',
-  owner_name: '',
-  checked_at: null as string | null,
-  status: 'idle', // 'pending' EMAS
-}
-
-let bank = {
-  id: '',
-  card_holder: '',
-  card_number: '',
-  account_number: '',
-  bank_name: '',
-  bank_code: '',
-  account_type: 'card',
-  verified: false,
-  is_primary: false,
-  created_at: '',
-  updated_at: '',
-}
-
-let company = {
-  id: '',
-  company_name: '',
-  director_name: '',
-  inn: '',
-  registration_number: '',
-  legal_address: '',
-  business_type: 'llc',
-  verified: false,
-  created_at: '',
-  updated_at: '',
-}
-
-let certificates: any[] = []
-
-/* ============================================================================
- * 2. HANDLERS (Qadam-baqadam mantiq)
- * ============================================================================
- */
 
 export const sellerVerificationHandlers = [
-  
-  // ---> GLOBAL STATUS <---
-  http.get(`${API}/seller/status`, () => {
-    return HttpResponse.json(sellerStatus)
+  http.get(`${BASE}/seller/status`, () => HttpResponse.json(sellerStatus())),
+
+  /* Profile (step 1) */
+  http.get(`${BASE}/seller/profile`, () => HttpResponse.json(db.profile)),
+
+  http.put(`${BASE}/seller/profile`, async ({ request }) => {
+    const body = (await request.json()) as Partial<typeof db.profile>
+    db.profile = { ...db.profile, ...body, updated_at: new Date().toISOString() }
+    completeStep('personal_info')
+    return HttpResponse.json(db.profile)
   }),
 
-  /**
-   * ==========================================================================
-   * STEP 1: PERSONAL INFO
-   * ==========================================================================
-   */
-  http.get(`${API}/seller/profile`, () => {
-    return HttpResponse.json(sellerProfile)
-  }),
+  /* Email confirmation (step 2) */
+  http.get(`${BASE}/seller/email/status`, () => HttpResponse.json(db.email)),
 
-  http.put(`${API}/seller/profile`, async ({ request }) => {
-    const body = (await request.json()) as Partial<typeof sellerProfile>
-    
-    sellerProfile = { ...sellerProfile, ...body, updated_at: new Date().toISOString() }
-
-    // SUCCESS: Move to EMAIL
-    sellerStatus.current_step = 'email'
-    sellerStatus.completed_steps = Math.max(sellerStatus.completed_steps, 1)
-    sellerStatus.progress_percentage = 14
-
-    return HttpResponse.json(sellerProfile)
-  }),
-
-  /**
-   * ==========================================================================
-   * STEP 2: EMAIL
-   * ==========================================================================
-   */
-  http.get(`${API}/seller/email/status`, () => {
-    return HttpResponse.json(emailStatus)
-  }),
-
-  http.post(`${API}/seller/email/send`, async ({ request }) => {
-    const body = (await request.json()) as { email: string }
-    emailStatus = { ...emailStatus, email: body.email, status: 'otp_sent' }
+  http.post(`${BASE}/seller/email/send`, async ({ request }) => {
+    const body = (await request.json()) as { email?: string }
+    db.email = { ...db.email, email: body.email ?? '', status: 'otp_sent' }
     return HttpResponse.json({ success: true, message: 'OTP sent' })
   }),
 
-  http.post(`${API}/seller/email/verify`, async ({ request }) => {
-    const body = await request.json() as any;
-    
-    // Frontend ba'zida 'code', ba'zida 'otp' yuboradi. Ikkalasini ham ushlaymiz.
-    const code = body.code || body.otp; 
-
-    if (code !== '123456') {
-      return HttpResponse.json({ success: false, message: 'Invalid code' }, { status: 400 })
+  http.post(`${BASE}/seller/email/verify`, async ({ request }) => {
+    const body = (await request.json()) as { email?: string; code?: string }
+    if (body.code !== MOCK_OTP) {
+      return HttpResponse.json({ error: 'invalid_otp' }, { status: 400 })
     }
-
-    emailStatus = { verified: true, email: body.email, verified_at: new Date().toISOString(), status: 'verified' }
-    
-    // SUCCESS: Move to PASSPORT
-    sellerStatus.current_step = 'passport'
-    sellerStatus.completed_steps = Math.max(sellerStatus.completed_steps, 2)
-    sellerStatus.progress_percentage = 28
-
+    db.email = {
+      status: 'verified',
+      verified: true,
+      email: body.email ?? db.email.email,
+      verified_at: new Date().toISOString(),
+    }
+    completeStep('email')
     return HttpResponse.json({ success: true, verified: true })
   }),
 
-  /**
-   * ==========================================================================
-   * STEP 3: PASSPORT
-   * ==========================================================================
-   */
-  http.get(`${API}/seller/passport/status`, () => {
-    return HttpResponse.json(passportStatus)
-  }),
+  /* Passport / MyID (step 3) — mock verifies instantly, no redirect leg */
+  http.get(`${BASE}/seller/passport/status`, () => HttpResponse.json(db.passport)),
 
-  http.post(`${API}/seller/passport/start`, async ({ request }) => {
-    const body = await request.json() as { passport_number: string }
-
-    // Dastur qotib qolmasligi uchun darhol 'verified' qilamiz
-    passportStatus = {
-      verified: true,
-      status: 'verified', 
-      full_name: "John Doe",
-      passport_number: body.passport_number,
+  http.post(`${BASE}/seller/passport/start`, async ({ request }) => {
+    const body = (await request.json()) as { passport_number?: string }
+    db.passport = {
+      status: 'verified',
+      full_name: 'John Doe',
+      passport_number: body.passport_number ?? null,
       verified_at: new Date().toISOString(),
       reject_reason: null,
     }
-
-    // SUCCESS: Move to INN
-    sellerStatus.current_step = 'inn'
-    sellerStatus.completed_steps = Math.max(sellerStatus.completed_steps, 3)
-    sellerStatus.progress_percentage = 42
-
-    return HttpResponse.json({ success: true })
+    completeStep('passport')
+    return HttpResponse.json({ success: true, redirect_url: null })
   }),
 
-  /**
-   * ==========================================================================
-   * STEP 4: INN
-   * ==========================================================================
-   */
-  http.get(`${API}/seller/inn/status`, () => {
-    return HttpResponse.json(innStatus)
-  }),
+  /* INN (step 4) */
+  http.get(`${BASE}/seller/inn/status`, () => HttpResponse.json(db.inn)),
 
-  http.post(`${API}/seller/inn/verify`, async ({ request }) => {
-    const body = await request.json() as { inn: string }
-
-    // Darhol tasdiqlaymiz
-    innStatus = {
+  http.post(`${BASE}/seller/inn/verify`, async ({ request }) => {
+    const body = (await request.json()) as { inn?: string }
+    db.inn = {
+      status: 'verified',
       verified: true,
-      inn: body.inn,
+      inn: body.inn ?? '',
       company_name: 'Demo Company LLC',
       owner_name: 'John Doe',
       checked_at: new Date().toISOString(),
-      status: 'verified',
     }
-
-    // SUCCESS: Move to BANK
-    sellerStatus.current_step = 'bank'
-    sellerStatus.completed_steps = Math.max(sellerStatus.completed_steps, 4)
-    sellerStatus.progress_percentage = 57
-
-    return HttpResponse.json({ verified: true, ...innStatus })
+    completeStep('inn')
+    return HttpResponse.json(db.inn)
   }),
 
-  /**
-   * ==========================================================================
-   * STEP 5: BANK ACCOUNT
-   * ==========================================================================
-   */
-  http.get(`${API}/seller/bank`, () => {
-    return HttpResponse.json(bank)
+  /* Bank account (step 5) — 404 until saved so the empty state renders */
+  http.get(`${BASE}/seller/bank`, () => {
+    if (!db.bank) return HttpResponse.json({ error: 'not_found' }, { status: 404 })
+    return HttpResponse.json(db.bank)
   }),
 
-  http.put(`${API}/seller/bank`, async ({ request }) => {
-    const body = await request.json() as any
-
-    bank = {
+  http.put(`${BASE}/seller/bank`, async ({ request }) => {
+    const body = (await request.json()) as Record<string, unknown>
+    db.bank = {
       ...body,
-      id: crypto.randomUUID(),
+      id: db.bank?.id ?? crypto.randomUUID(),
       verified: true,
       is_primary: true,
       updated_at: new Date().toISOString(),
     }
-
-    // SUCCESS: Move to COMPANY
-    sellerStatus.current_step = 'company'
-    sellerStatus.completed_steps = Math.max(sellerStatus.completed_steps, 5)
-    sellerStatus.progress_percentage = 71
-
-    return HttpResponse.json(bank, { status: 201 })
+    completeStep('bank')
+    return HttpResponse.json(db.bank, { status: 201 })
   }),
 
-  /**
-   * ==========================================================================
-   * STEP 6: COMPANY
-   * ==========================================================================
-   */
-  http.get(`${API}/seller/company`, () => {
-    return HttpResponse.json(company)
+  /* Company (step 6) — 404 until saved */
+  http.get(`${BASE}/seller/company`, () => {
+    if (!db.company) return HttpResponse.json({ error: 'not_found' }, { status: 404 })
+    return HttpResponse.json(db.company)
   }),
 
-  http.put(`${API}/seller/company`, async ({ request }) => {
-    const body = await request.json() as any
-
-    company = {
+  http.put(`${BASE}/seller/company`, async ({ request }) => {
+    const body = (await request.json()) as Record<string, unknown>
+    db.company = {
       ...body,
-      id: crypto.randomUUID(),
+      id: db.company?.id ?? crypto.randomUUID(),
       verified: true,
       updated_at: new Date().toISOString(),
     }
-
-    // SUCCESS: Move to CERTIFICATE
-    sellerStatus.current_step = 'certificate'
-    sellerStatus.completed_steps = Math.max(sellerStatus.completed_steps, 6)
-    sellerStatus.progress_percentage = 85
-
-    return HttpResponse.json(company, { status: 201 })
+    completeStep('company')
+    return HttpResponse.json(db.company, { status: 201 })
   }),
 
-  /**
-   * ==========================================================================
-   * STEP 7: CERTIFICATES (Va yakunlash)
-   * ==========================================================================
-   */
-http.get(`${API}/seller/certificates`, () => {
-    return HttpResponse.json(certificates)
-  }),
+  /* Certificates (step 7 → completed) */
+  http.get(`${BASE}/seller/certificates`, () => HttpResponse.json(db.certificates)),
 
-  http.post(`${API}/seller/certificates`, async ({ request }) => {
+  http.post(`${BASE}/seller/certificates`, async ({ request }) => {
     const formData = await request.formData()
-    const file = formData.get('file') as File | null
-    // Agar form-datada document_type bo'lsa uni olamiz, yo'qsa 'other' qo'yamiz
-    const documentType = (formData.get('document_type') as string) || 'other'
-
-    const certificate = {
+    const file = formData.get('file')
+    const isFile = file instanceof File
+    const certificate: MockCertificate = {
       id: crypto.randomUUID(),
-      file_name: file?.name || 'document.pdf',
-      original_name: file?.name || 'document.pdf',
-      mime_type: file?.type || 'application/pdf', // <-- Xatolikni shu qator to'g'irlaydi
-      file_size: file?.size || 1024,
-      document_type: documentType,                // <-- Yoki shu qator
+      file_name: isFile ? file.name : 'document.pdf',
+      original_name: isFile ? file.name : 'document.pdf',
+      mime_type: isFile ? file.type : 'application/pdf',
+      file_size: isFile ? file.size : 1024,
+      document_type: String(formData.get('document_type') ?? 'other'),
       verified: true,
       uploaded_at: new Date().toISOString(),
-      download_url: `/mock/files/${file?.name || 'document.pdf'}`,
     }
-
-    certificates.unshift(certificate)
-
-    // FINAL SUCCESS: Move to COMPLETED
-    sellerStatus.current_step = 'completed'
-    sellerStatus.completed_steps = 7
-    sellerStatus.progress_percentage = 100
-    sellerStatus.verification_status = 'verified'
-    sellerStatus.verified = true
-
+    db.certificates.unshift(certificate)
+    completeStep('certificate')
     return HttpResponse.json(certificate, { status: 201 })
   }),
-  /**
-   * ==========================================================================
-   * RESET (Dasturni boshidan sinash uchun)
-   * ==========================================================================
-   */
-  http.post(`${API}/seller/mock/reset`, () => {
-    sellerStatus = { completed_steps: 0, total_steps: 7, progress_percentage: 0, current_step: 'personal_info', verification_status: 'unverified', verified: false }
-    emailStatus = { verified: false, email: '', verified_at: null, status: 'idle' }
-    passportStatus = { verified: false, status: 'idle', full_name: null, passport_number: null, verified_at: null, reject_reason: null }
-    innStatus = { verified: false, inn: '', company_name: '', owner_name: '', checked_at: null, status: 'idle' }
-    certificates = []
+
+  http.delete(`${BASE}/seller/certificates/:id`, ({ params }) => {
+    db.certificates = db.certificates.filter((c) => c.id !== params.id)
+    return HttpResponse.json({ success: true })
+  }),
+
+  /* Dev helper: restart the whole flow */
+  http.post(`${BASE}/seller/mock/reset`, () => {
+    db = initialState()
     return HttpResponse.json({ success: true })
   }),
 ]
