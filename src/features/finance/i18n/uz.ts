@@ -1,0 +1,102 @@
+// Uzbek finance strings — source language (no `as const` per team rules)
+const uz = {
+  finance: {
+    nav: { income: 'Daromadlarim', balance: 'Balansim', bankAccounts: 'Bank hisoblari', settings: "Toʻlov sozlamalari" },
+    incomeOverview: {
+      title: 'Daromad sharhi',
+      banner: "Hisob-kitoblarda tuzatishlar koʻrsatilmaydi. Tuzatish tafsilotlari uchun daromad hisobotini yuklab oling.",
+      pending: 'Kutilmoqda', released: 'Chiqarildi', total: 'Jami',
+      thisWeek: 'Bu hafta', thisMonth: 'Bu oy',
+      myBankAccount: "Mening bank hisobim:", myBalance: 'Balansim',
+    },
+    incomeDetails: {
+      title: 'Daromad tafsilotlari', tabPending: 'Kutilmoqda', tabReleased: 'Chiqarildi',
+      thisWeek: 'Bu hafta', thisMonth: 'Bu oy', export: 'Eksport', searchOrder: 'Buyurtma qidirish',
+      col: { order: 'Buyurtma', releasedOn: "Toʻlov chiqarilgan sana", status: 'Holat', paymentMethod: "Toʻlov usuli", releasedAmount: "Chiqarilgan summa" },
+      status: { pending: 'Kutilmoqda', released: 'Chiqarildi', on_hold: 'Ushlab turilgan', cancelled: 'Bekor qilindi' },
+      method: { atmos: 'Atmos', payme: 'Payme', ozb_wallet: 'OZB Hamyon' },
+      empty: "Maʻlumot yoʻq",
+    },
+    sidebar: { statementsTitle: 'Daromad hisob-kitoblari', taxInvoicesTitle: 'Soliq schyot-fakturalari', more: "Koʻproq", noStatements: "Hisob-kitob yoʻq", noInvoices: "Soliq schyot-fakturasi yoʻq", viewBalance: 'Balansimni koʻrish' },
+    statements: {
+      title: 'Daromad hisob-kitoblari', subtitle: "Faqat oxirgi 24 oylik hisob-kitoblar saqlanadi. Iltimos, PDF nusxasini yuklab oling.",
+      downloadAll: 'Hammasini yuklab olish',
+      col: { statement: 'Hisob-kitob', totalPayout: "Jami chiqarilgan toʻlov", date: 'Sana', action: 'Amal' },
+      download: 'Yuklab olish', downloaded: 'Yuklab olindi',
+      latestTitle: 'Oxirgi hisobotlar', latestBanner: "Yuklab olinmagan hisobotlaringiz mana.",
+      latestColName: 'Hisobot nomi', latestColAction: 'Amal',
+      latestFooter: "Barcha hisobotlar:", myReports: 'Mening hisobotlarim', empty: "Hisob-kitob yoʻq",
+    },
+    walletCard: {
+      title: 'Balans sharhi', walletBalance: 'Hamyon balansi',
+      autoWithdrawOn: 'Avtomatic yechish: YOQILGAN', autoWithdrawOff: "Avtomatic yechish: OʻCHIRILGAN",
+      withdraw: 'Yechish', myBankAccount: 'Mening bank hisobim', more: "Koʻproq", default: 'Asosiy', noAccount: "Bank hisobi ulashilmagan",
+      accountStatus: { verified: 'Tasdiqlangan', checked: 'Tekshirilgan', pending: 'Kutilmoqda', error: 'Xato' },
+    },
+    txFilters: {
+      moneyFlow: "Pul oqimi", shopType: "Doʻkon turi", txType: 'Tranzaksiya turi', local: 'Mahalliy',
+      flow: { all: 'Barchasi', money_in: 'Kiruvchi', money_out: 'Chiquvchi' },
+      type: { order_income: 'Buyurtma daromadi', adjustment: 'Tuzatish', refund: "Qaytarilgan toʻlov", withdrawal: 'Yechish', platform_fee: "Platforma toʻlovi" },
+      reset: 'Tiklash', apply: "Qoʻllash",
+    },
+    txTable: {
+      count: "{{count}} ta tranzaksiya (Jami summa: {{amount}})", searchPlaceholder: 'Buyurtma ID qidirish', export: 'Eksport',
+      recentTitle: "Soʻnggi tranzaksiyalar",
+      col: { dateTime: 'Sana/Vaqt', description: 'Tavsif', txId: 'Tranzaksiya ID', amount: 'Summa', status: 'Holat' },
+      txStatus: { completed: 'Bajarildi', pending: 'Kutilmoqda', failed: "Muvaffaqiyatsiz" },
+      empty: "Tranzaksiya tarixi yoʻq",
+    },
+    txDetail: {
+      breadcrumbHome: 'Bosh sahifa', breadcrumbBalance: 'Balansim', breadcrumb: 'Tranzaksiya tafsilotlari',
+      incomeTitle: '#{orderId} buyurtmasidan daromad', walletBalance: 'Hamyon balansi:',
+      createTime: "Yaratilgan vaqt", buyer: 'Xaridor', orderId: 'Buyurtma ID',
+      notFound: "Tranzaksiya topilmadi",
+      status: { completed: 'Bajarildi', pending: 'Kutilmoqda', failed: "Muvaffaqiyatsiz" },
+      typeLabel: { order_income: 'Buyurtma daromadi', adjustment: 'Tuzatish', refund: "Qaytarilgan toʻlov", withdrawal: 'Yechish', platform_fee: "Platforma toʻlovi" },
+    },
+    payAccount: {
+      title: "Bank hisobini qoʻshish", addCard: "Bank hisobini qoʻshish",
+      emptyTitle: "Bank hisobi ulanmagan", emptyDesc: "Mablagʻ yechish uchun bank hisobingizni ulang",
+      status: { verified: 'Tasdiqlangan', checked: 'Tekshirilgan', pending: 'Kutilmoqda', error: 'Xato' },
+      default: 'Asosiy', setDefault: 'Asosiy qilish', remove: "Oʻchirish", removeConfirm: "Ushbu bank kartasini oʻchirishni xohlaysizmi?",
+    },
+    income: {
+      title: 'Mening daromadlarim', subtitle: "Doʻkondan tushgan barcha mablagʻlar va daromadlar tahlili", totalShown: "Jami koʻrsatilayotgan tushum",
+      method: { all: 'Barchasi', card: 'Karta', cash: 'Naqd', invoice: 'Invoys' },
+      col: { source: 'Daromad manbasi', orderId: 'Buyurtma ID', method: "Toʻlov turi", date: 'Sana', amount: 'Summa' },
+      empty: 'Daromad topilmadi',
+    },
+    balance: {
+      title: 'Mening balansim', subtitle: "Sotuvlardan yigʻilgan mablagʻlarni kuzatish va hisob raqamga yechib olish",
+      available: 'Yechib olish mumkin', availableNote: '● Komissiyasiz yechish faol',
+      hold: 'Tranzaksiya jarayonida (Hold)', holdNote: 'Xaridor tasdiqlashi kutilmoqda',
+      withdrawnThisMonth: 'Shu oyda yechilgan jami pul', lastWithdraw: 'Oxirgi yechish: {{date}}', lastWithdrawNever: 'Hali yechilmagan',
+      formTitle: "Mablagʻni hisob raqamga oʻtkazish", selectAccount: 'Hisob raqamni tanlang',
+      amount: "Yechiladigan summa (soʻm)", amountPlaceholder: 'Masalan: 5 000 000',
+      submit: "Oʻtkazmani tasdiqlash", submitting: 'Yuborilmoqda…',
+      success: "{{amount}} muvaffaqiyatli ravishda {{bank}} hisobiga yuborildi!",
+      errInvalid: "Toʻg'ri summa kiriting", errInsufficient: "Balansda mablag' yetarli emas",
+      noAccounts: "Avval bank hisob raqamini qoʻshing",
+    },
+    accounts: {
+      title: 'Bank hisob raqamlari', subtitle: "Mablagʻlarni yechib olish uchun roʻyxatdan oʻtgan rasmiy bank hisoblaringiz",
+      add: '+ Yangi hisob ulashtirish', primary: 'Asosiy', makePrimary: 'Asosiy qilish',
+      delete: "Oʻchirish", deleteConfirm: "Ushbu bank hisob raqamini oʻchirishni xohlaysizmi?",
+      mfo: 'MFO: {{mfo}}', empty: "Hali hisob raqam qoʻshilmagan", modalTitle: 'Yangi bank hisob raqami',
+      bankName: 'Bank nomi', bankNamePlaceholder: 'Masalan: Asakabank AJ',
+      accountName: 'Hisob egasi (MCHJ yoki F.I.O)', accountNamePlaceholder: 'Masalan: OZB GLOBAL SOLUTIONS',
+      accountNumber: 'Hisob raqam (20 talik raqam)', accountNumberPlaceholder: '20208000...',
+      mfoCode: 'MFO kodi (5 talik)', mfoPlaceholder: '00440', cancel: 'Bekor qilish', save: 'Hisobni ulash', saving: 'Saqlanmoqda…',
+    },
+    settings: {
+      title: "Toʻlov sozlamalari", subtitle: "Avtomatik oʻtkazmalar va moliya xabarnomalarini boshqarish qoidalari",
+      autoWithdraw: "Avtomatik mablag' oʻtkazish", autoWithdrawNote: "Balans maʻlum summaga yetganda bank hisobiga avtomat yuborish",
+      period: "Oʻtkazma davriyligi", periodDaily: 'Har kuni kechasi (23:59)', periodWeekly: 'Har haftalik (Dushanba kunlari)', periodMonthly: 'Har oylik oxirgi sanasida',
+      notify: 'Tranzaksiya xabarnomalari', notifyNote: "Har gal balans oʻzgarganda telefon raqamga SMS yuborish",
+      save: 'Qoidalarni saqlash', saving: 'Saqlanmoqda…', success: 'Sozlamalar muvaffaqiyatli saqlandi!',
+    },
+  },
+}
+
+export default uz
+export type FinanceMessages = typeof uz

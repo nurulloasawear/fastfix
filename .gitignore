@@ -1,0 +1,21 @@
+node_modules
+dist
+dist-ssr
+coverage
+
+# env (only .env.example is committed)
+.env
+.env.local
+.env.*.local
+*.local
+
+# editor / os
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+*.log
+npm-debug.log*
+
+# NOTE: public/mockServiceWorker.js IS committed — MSW needs it.

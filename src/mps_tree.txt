@@ -1,0 +1,678 @@
+.
+├── app
+│   ├── App.tsx
+│   ├── providers.tsx
+│   └── router.tsx
+├── components
+│   ├── layout
+│   │   ├── AppLayout.tsx
+│   │   └── Sidebar.tsx
+│   ├── PasswordGate.tsx
+│   └── ui
+│       ├── Badge.tsx
+│       ├── Button.tsx
+│       ├── Card.tsx
+│       ├── CopyButton.tsx
+│       ├── EmptyState.tsx
+│       ├── ErrorState.tsx
+│       ├── Image.tsx
+│       ├── Input.tsx
+│       ├── Modal.tsx
+│       ├── OfflineBanner.tsx
+│       ├── PageHeader.tsx
+│       ├── Page.tsx
+│       ├── Pagination.tsx
+│       ├── Select.tsx
+│       ├── Skeleton.tsx
+│       ├── Spinner.tsx
+│       ├── StatCard.tsx
+│       ├── Table.tsx
+│       ├── Tabs.tsx
+│       ├── Textarea.tsx
+│       └── Toast.tsx
+├── config
+│   ├── endpoints.ts
+│   └── env.ts
+├── features
+│   ├── account-health
+│   │   ├── api
+│   │   │   ├── account-health.api.ts
+│   │   │   ├── account-health.mocks.ts
+│   │   │   └── account-health.queries.ts
+│   │   ├── components
+│   │   │   ├── DonutChart.tsx
+│   │   │   ├── HealthScoreHeader.tsx
+│   │   │   ├── icons.tsx
+│   │   │   ├── IssuesToImprove.tsx
+│   │   │   ├── KpiStrip.tsx
+│   │   │   ├── LineChart.tsx
+│   │   │   ├── MetricsTable.tsx
+│   │   │   ├── NfrAffectedOrdersTable.tsx
+│   │   │   ├── NfrOverviewStrip.tsx
+│   │   │   ├── PenaltyPanel.tsx
+│   │   │   └── VerifiedSellerWidget.tsx
+│   │   ├── i18n.ts
+│   │   ├── index.ts
+│   │   └── types
+│   │       └── account-health.types.ts
+│   ├── auth
+│   │   ├── api
+│   │   │   ├── auth.api.ts
+│   │   │   ├── auth.mocks.ts
+│   │   │   └── auth.queries.ts
+│   │   ├── i18n.ts
+│   │   ├── index.ts
+│   │   ├── RequireAuth.tsx
+│   │   ├── types
+│   │   │   └── auth.types.ts
+│   │   └── useAuth.ts
+│   ├── customer-service
+│   │   ├── api
+│   │   │   ├── customer-service.api.ts
+│   │   │   ├── customer-service.fixtures.ts
+│   │   │   ├── customer-service.mocks.ts
+│   │   │   └── customer-service.queries.ts
+│   │   ├── components
+│   │   │   ├── AutoReplyCard.tsx
+│   │   │   ├── AutoReplySection.tsx
+│   │   │   ├── ChatAssistantFeaturesCard.tsx
+│   │   │   ├── ChatChannelList.tsx
+│   │   │   ├── ChatEducationCard.tsx
+│   │   │   ├── ChatOrderPanel.tsx
+│   │   │   ├── ChatPerformanceCard.tsx
+│   │   │   ├── ChatWindow.tsx
+│   │   │   ├── FaqAccordion.tsx
+│   │   │   ├── FaqDetailForm.tsx
+│   │   │   ├── FaqFunnelChart.tsx
+│   │   │   ├── HelpGuideCard.tsx
+│   │   │   ├── HelpHero.tsx
+│   │   │   ├── icons.tsx
+│   │   │   ├── ReviewReplyModal.tsx
+│   │   │   ├── ReviewTable.tsx
+│   │   │   ├── ShortcutGroupAccordion.tsx
+│   │   │   ├── ShortcutsPanel.tsx
+│   │   │   ├── ticketBadges.ts
+│   │   │   ├── TicketDetailModal.tsx
+│   │   │   ├── TicketStatusTabs.tsx
+│   │   │   ├── TicketTable.tsx
+│   │   │   └── ToggleSwitch.tsx
+│   │   ├── i18n.ts
+│   │   ├── index.ts
+│   │   ├── stores
+│   │   │   └── customer-service.store.ts
+│   │   └── types
+│   │       └── customer-service.types.ts
+│   ├── discounts
+│   │   ├── api
+│   │   │   ├── discounts.api.ts
+│   │   │   ├── discounts.mocks.ts
+│   │   │   └── discounts.queries.ts
+│   │   ├── components
+│   │   │   ├── DeleteConfirmModal.tsx
+│   │   │   ├── DiscountFilters.tsx
+│   │   │   ├── DiscountFormModal.tsx
+│   │   │   ├── DiscountForm.tsx
+│   │   │   ├── DiscountMobileList.tsx
+│   │   │   ├── DiscountStats.tsx
+│   │   │   ├── DiscountStatusBadge.tsx
+│   │   │   ├── DiscountTable.tsx
+│   │   │   ├── formatValue.ts
+│   │   │   └── icons.tsx
+│   │   ├── i18n.ts
+│   │   ├── index.ts
+│   │   ├── stores
+│   │   │   └── discounts.store.ts
+│   │   └── types
+│   │       └── discounts.types.ts
+│   ├── finance
+│   │   ├── api
+│   │   │   ├── finance.api.ts
+│   │   │   ├── finance.mocks.legacy.ts
+│   │   │   ├── finance.mocks.ts
+│   │   │   └── finance.queries.ts
+│   │   ├── components
+│   │   │   ├── FinanceNav.tsx
+│   │   │   ├── IncomeDetailsTable.tsx
+│   │   │   ├── IncomeOverviewCard.tsx
+│   │   │   ├── IncomeSidebarPanel.tsx
+│   │   │   ├── PaymentAccountCard.tsx
+│   │   │   ├── StatementsLatestPanel.tsx
+│   │   │   ├── Toggle.tsx
+│   │   │   ├── TransactionFilters.tsx
+│   │   │   ├── TransactionTable.tsx
+│   │   │   └── WalletOverviewCard.tsx
+│   │   ├── i18n
+│   │   │   ├── en.ts
+│   │   │   ├── ru.ts
+│   │   │   └── uz.ts
+│   │   ├── i18n.ts
+│   │   ├── index.ts
+│   │   ├── stores
+│   │   │   └── finance.store.ts
+│   │   └── types
+│   │       └── finance.types.ts
+│   ├── golive
+│   │   ├── api
+│   │   │   ├── golive.api.ts
+│   │   │   └── golive.queries.ts
+│   │   ├── components
+│   │   │   ├── BroadcastStage.tsx
+│   │   │   └── Countdown.tsx
+│   │   ├── i18n.ts
+│   │   ├── index.ts
+│   │   ├── types
+│   │   │   └── golive.types.ts
+│   │   └── useLiveChat.ts
+│   ├── home
+│   │   ├── api
+│   │   │   ├── home.api.ts
+│   │   │   ├── home.mocks.ts
+│   │   │   └── home.queries.ts
+│   │   ├── components
+│   │   │   ├── DashboardPanel.tsx
+│   │   │   ├── formatMetric.ts
+│   │   │   ├── icons.tsx
+│   │   │   ├── InsightFilterBar.tsx
+│   │   │   ├── InsightTabs.tsx
+│   │   │   ├── MetricCardGrid.tsx
+│   │   │   ├── MetricCell.tsx
+│   │   │   ├── MetricRows.tsx
+│   │   │   ├── TodoCard.tsx
+│   │   │   ├── TrendBadge.tsx
+│   │   │   └── TrendChart.tsx
+│   │   ├── i18n.ts
+│   │   ├── index.ts
+│   │   ├── stores
+│   │   │   └── home.store.ts
+│   │   └── types
+│   │       └── home.types.ts
+│   ├── insights
+│   │   ├── api
+│   │   │   ├── insights.api.ts
+│   │   │   ├── insights.mocks.ts
+│   │   │   └── insights.queries.ts
+│   │   ├── components
+│   │   │   ├── ChannelBreakdown.tsx
+│   │   │   ├── DataPeriodBar.tsx
+│   │   │   ├── FunnelDiagram.tsx
+│   │   │   ├── InlineBarCell.tsx
+│   │   │   ├── InsightsTabs.tsx
+│   │   │   ├── KpiCard.tsx
+│   │   │   ├── MarketingDiscountTab.tsx
+│   │   │   ├── MarketingKpiRow.tsx
+│   │   │   ├── MarketingLivestreamTab.tsx
+│   │   │   ├── MarketingSubTabs.tsx
+│   │   │   ├── ProductDiagnosisTab.tsx
+│   │   │   ├── ProductPerformanceTab.tsx
+│   │   │   ├── ProductSubTabs.tsx
+│   │   │   ├── PromoBanner.tsx
+│   │   │   ├── TrafficSourcesTable.tsx
+│   │   │   └── TrendChart.tsx
+│   │   ├── i18n.ts
+│   │   ├── index.ts
+│   │   ├── stores
+│   │   │   └── insights.store.ts
+│   │   └── types
+│   │       └── insights.types.ts
+│   ├── live
+│   │   ├── api
+│   │   │   ├── live.api.ts
+│   │   │   ├── live.mocks.ts
+│   │   │   └── live.queries.ts
+│   │   ├── components
+│   │   │   ├── AnalyticsMetricCard.tsx
+│   │   │   ├── AnalyticsSectionCard.tsx
+│   │   │   ├── icons.tsx
+│   │   │   ├── LiveSubNav.tsx
+│   │   │   ├── ObsSetupGuide.tsx
+│   │   │   ├── ProductPickerModal.tsx
+│   │   │   ├── ProductsPanelModal.tsx
+│   │   │   ├── PromotionStatusBadge.tsx
+│   │   │   ├── StreamProductList.tsx
+│   │   │   ├── StreamProductList.types.ts
+│   │   │   └── StreamProductPickerModal.tsx
+│   │   ├── i18n.ts
+│   │   ├── index.ts
+│   │   └── types
+│   │       └── live.types.ts
+│   ├── marketing
+│   │   ├── api
+│   │   │   ├── marketing.api.ts
+│   │   │   ├── marketing.mocks.ts
+│   │   │   └── marketing.queries.ts
+│   │   ├── components
+│   │   │   ├── AdsChart.tsx
+│   │   │   ├── AdsMetricGrid.tsx
+│   │   │   ├── AdsTable.tsx
+│   │   │   ├── AnnouncementCard.tsx
+│   │   │   ├── CreateVoucherModal.tsx
+│   │   │   ├── EventCard.tsx
+│   │   │   ├── icons.tsx
+│   │   │   ├── MarketingNav.tsx
+│   │   │   ├── PerformancePanel.tsx
+│   │   │   ├── ShippingForm.tsx
+│   │   │   └── VoucherTable.tsx
+│   │   ├── i18n.ts
+│   │   ├── index.ts
+│   │   ├── stores
+│   │   │   └── marketing.store.ts
+│   │   └── types
+│   │       └── marketing.types.ts
+│   ├── notifications
+│   │   ├── api
+│   │   │   ├── notifications.api.ts
+│   │   │   ├── notifications.mocks.ts
+│   │   │   └── notifications.queries.ts
+│   │   ├── components
+│   │   │   ├── icons.tsx
+│   │   │   ├── NotificationList.tsx
+│   │   │   ├── NotificationRow.tsx
+│   │   │   └── NotificationTabs.tsx
+│   │   ├── i18n.ts
+│   │   ├── index.ts
+│   │   ├── stores
+│   │   │   └── notifications.store.ts
+│   │   └── types
+│   │       └── notifications.types.ts
+│   ├── orders
+│   │   ├── api
+│   │   │   ├── orders.api.ts
+│   │   │   ├── orders.mocks.ts
+│   │   │   └── orders.queries.ts
+│   │   ├── components
+│   │   │   ├── icons.tsx
+│   │   │   ├── OrderEventTimeline.tsx
+│   │   │   ├── OrderFilters.tsx
+│   │   │   ├── OrderPaymentSummary.tsx
+│   │   │   ├── OrderRowGroup.tsx
+│   │   │   ├── OrderStatusTabs.tsx
+│   │   │   ├── OrderSubTabs.tsx
+│   │   │   ├── OrderTable.tsx
+│   │   │   ├── OrderTimeline.tsx
+│   │   │   ├── ReturnEventTimeline.tsx
+│   │   │   └── ReturnStatusTabs.tsx
+│   │   ├── i18n
+│   │   │   ├── ru.ts
+│   │   │   └── uz.ts
+│   │   ├── i18n.ts
+│   │   ├── index.ts
+│   │   ├── stores
+│   │   │   └── orders.store.ts
+│   │   └── types
+│   │       └── orders.types.ts
+│   ├── products
+│   │   ├── api
+│   │   │   ├── products.api.ts
+│   │   │   ├── products.mock-data.ts
+│   │   │   ├── products.mocks.ts
+│   │   │   └── products.queries.ts
+│   │   ├── components
+│   │   │   ├── BrandPicker.tsx
+│   │   │   ├── CategoryPicker.tsx
+│   │   │   ├── FormField.tsx
+│   │   │   ├── icons.tsx
+│   │   │   ├── ListingQualityTable.tsx
+│   │   │   ├── ProductFilters.tsx
+│   │   │   ├── ProductFormBasic.tsx
+│   │   │   ├── ProductFormSales.tsx
+│   │   │   ├── ProductFormSections.tsx
+│   │   │   ├── ProductFormShared.tsx
+│   │   │   ├── ProductForm.tsx
+│   │   │   ├── ProductImageEditor.tsx
+│   │   │   ├── ProductStatusTabs.tsx
+│   │   │   ├── ProductTableRow.tsx
+│   │   │   ├── ProductTable.tsx
+│   │   │   ├── RecordsTable.tsx
+│   │   │   ├── ReviewTable.tsx
+│   │   │   ├── StatusBadge.tsx
+│   │   │   ├── UnpublishedTable.tsx
+│   │   │   └── ViolationTable.tsx
+│   │   ├── hooks
+│   │   │   └── useJobNotifier.ts
+│   │   ├── i18n
+│   │   │   ├── en.ts
+│   │   │   ├── ru.ts
+│   │   │   └── uz.ts
+│   │   ├── i18n.ts
+│   │   ├── index.ts
+│   │   ├── stores
+│   │   │   └── products.store.ts
+│   │   └── types
+│   │       └── products.types.ts
+│   ├── promotions
+│   │   ├── api
+│   │   │   ├── promotions.api.ts
+│   │   │   └── promotions.queries.ts
+│   │   ├── components
+│   │   │   ├── DiscountProductEditor.tsx
+│   │   │   └── PromotionProductPicker.tsx
+│   │   ├── i18n.ts
+│   │   ├── index.ts
+│   │   └── types
+│   │       └── promotions.types.ts
+│   ├── seller-verification
+│   │   ├── api
+│   │   │   ├── bank.api.ts
+│   │   │   ├── certificate.api.ts
+│   │   │   ├── company.api.ts
+│   │   │   ├── email.api.ts
+│   │   │   ├── index.ts
+│   │   │   ├── inn.api.ts
+│   │   │   ├── passport.api.ts
+│   │   │   ├── seller-verification.api.ts
+│   │   │   ├── seller-verification.mocks.ts
+│   │   │   └── seller-verification.queries.ts
+│   │   ├── components
+│   │   │   ├── BankAccountCard.tsx
+│   │   │   ├── CertificateUploadCard.tsx
+│   │   │   ├── CompanyInfoCard.tsx
+│   │   │   ├── EmailVerificationCard.tsx
+│   │   │   ├── InnVerificationCard.tsx
+│   │   │   ├── PassportVerificationCard.tsx
+│   │   │   ├── PersonalInfoForm.tsx
+│   │   │   ├── SellerVerificationStepper.tsx
+│   │   │   ├── StatusBadge.tsx
+│   │   │   ├── VerificationCompleted.tsx
+│   │   │   └── VerificationProgress.tsx
+│   │   ├── i18n.ts
+│   │   ├── index.ts
+│   │   ├── locales
+│   │   │   ├── en.ts
+│   │   │   ├── ru.ts
+│   │   │   └── uz.ts
+│   │   ├── queries
+│   │   │   ├── bank.queries.ts
+│   │   │   ├── certificate.queries.ts
+│   │   │   ├── company.queries.ts
+│   │   │   ├── email.queries.ts
+│   │   │   ├── index.ts
+│   │   │   ├── inn.queries.ts
+│   │   │   ├── passport.queries.ts
+│   │   │   ├── seller.queries.ts
+│   │   │   └── seller.query-keys.ts
+│   │   ├── types
+│   │   │   ├── api.types.ts
+│   │   │   ├── enums.ts
+│   │   │   └── seller-verification.types.ts
+│   │   └── utils
+│   │       ├── constants.ts
+│   │       ├── mapper.ts
+│   │       └── validators.ts
+│   ├── setting
+│   │   ├── api
+│   │   │   ├── setting.api.ts
+│   │   │   ├── setting.mocks.ts
+│   │   │   └── setting.queries.ts
+│   │   ├── components
+│   │   │   ├── AccountForm.tsx
+│   │   │   ├── AccountInfoCard.tsx
+│   │   │   ├── AccountProtectionCard.tsx
+│   │   │   ├── AddressList.tsx
+│   │   │   ├── AddressModal.tsx
+│   │   │   ├── ApiKeyCard.tsx
+│   │   │   ├── ChatSettingsCard.tsx
+│   │   │   ├── EmailModal.tsx
+│   │   │   ├── EmailNotificationCard.tsx
+│   │   │   ├── Field.tsx
+│   │   │   ├── icons.tsx
+│   │   │   ├── MembersManager.tsx
+│   │   │   ├── NotificationSettingsCard.tsx
+│   │   │   ├── PartnerManagementCard.tsx
+│   │   │   ├── PasswordForm.tsx
+│   │   │   ├── PaymentSettingCard.tsx
+│   │   │   ├── ProductSettingCard.tsx
+│   │   │   ├── ProfileEditModal.tsx
+│   │   │   ├── ResetPhoneModal.tsx
+│   │   │   ├── SettingHeader.tsx
+│   │   │   ├── SettingsTabBar.tsx
+│   │   │   ├── SettingTabs.tsx
+│   │   │   ├── ShopProfileCard.tsx
+│   │   │   ├── ShopProfileModal.tsx
+│   │   │   ├── Toggle.tsx
+│   │   │   ├── TwoFactorCard.tsx
+│   │   │   └── VacationModeCard.tsx
+│   │   ├── i18n.ts
+│   │   ├── index.ts
+│   │   ├── stores
+│   │   │   └── setting.store.ts
+│   │   └── types
+│   │       └── setting.types.ts
+│   ├── shipment
+│   │   ├── api
+│   │   │   ├── shipment.api.ts
+│   │   │   ├── shipment.mocks.ts
+│   │   │   └── shipment.queries.ts
+│   │   ├── components
+│   │   │   ├── icons.tsx
+│   │   │   ├── MassShipTable.tsx
+│   │   │   ├── MassShipToolbar.tsx
+│   │   │   ├── ShipmentSearch.tsx
+│   │   │   ├── ShipmentStatusBadge.tsx
+│   │   │   ├── ShipmentStatusTabs.tsx
+│   │   │   ├── ShipmentTable.tsx
+│   │   │   ├── ShippingSettingsForm.tsx
+│   │   │   └── Toggle.tsx
+│   │   ├── i18n.ts
+│   │   ├── index.ts
+│   │   ├── stores
+│   │   │   └── shipment.store.ts
+│   │   ├── types
+│   │   │   └── shipment.types.ts
+│   │   └── utils
+│   │       └── weight.ts
+│   └── shop
+│       ├── api
+│       │   ├── shop.api.ts
+│       │   ├── shop.mocks.extra.ts
+│       │   ├── shop.mocks.ts
+│       │   ├── shop.queries.ext.ts
+│       │   ├── shop.queries.ts
+│       │   └── shop.query-keys.ts
+│       ├── components
+│       │   ├── AppealsIcons.tsx
+│       │   ├── AppealsTable.tsx
+│       │   ├── CategoryAddForm.tsx
+│       │   ├── CategoryTable.tsx
+│       │   ├── DecorationBlockList.tsx
+│       │   ├── DecorationControls.tsx
+│       │   ├── DecorationDraftList.tsx
+│       │   ├── DecorationEditorCanvas.tsx
+│       │   ├── DecorationEditorModals.tsx
+│       │   ├── DecorationEditorParts.tsx
+│       │   ├── DecorationEditor.tsx
+│       │   ├── DecorationInspector.tsx
+│       │   ├── DecorationLibrary.tsx
+│       │   ├── DecorationPreview.tsx
+│       │   ├── Field.tsx
+│       │   ├── format.ts
+│       │   ├── icons.tsx
+│       │   ├── MediaGrid.tsx
+│       │   ├── MissionsIntroModal.tsx
+│       │   ├── MissionsPanel.tsx
+│       │   ├── ReportFilters.tsx
+│       │   ├── ReportList.tsx
+│       │   ├── ReportStats.tsx
+│       │   ├── ReviewList.tsx
+│       │   ├── ReviewStats.tsx
+│       │   ├── RewardsPanel.tsx
+│       │   ├── SearchInput.tsx
+│       │   ├── SegmentedTabs.tsx
+│       │   ├── ShopBrandingCard.tsx
+│       │   ├── ShopInfoBasicPanel.tsx
+│       │   ├── ShopInfoKycPanel.tsx
+│       │   ├── ShopProfileForm.tsx
+│       │   ├── StatCard.tsx
+│       │   ├── StorageBar.tsx
+│       │   └── widgetDefs.ts
+│       ├── i18n.ts
+│       ├── index.ts
+│       ├── stores
+│       │   └── shop.store.ts
+│       └── types
+│           ├── shop.types.ext.ts
+│           └── shop.types.ts
+├── i18n
+│   ├── errors.ts
+│   ├── index.ts
+│   └── locales
+│       ├── en.ts
+│       ├── ru.ts
+│       └── uz.ts
+├── lib
+│   ├── apiError.ts
+│   ├── authToken.ts
+│   ├── axios.ts
+│   ├── jobNotify.ts
+│   ├── lang.ts
+│   └── queryClient.ts
+├── main.tsx
+├── mocks
+│   ├── browser.ts
+│   └── handlers.ts
+├── mps_tree.txt
+├── pages
+│   ├── account-health
+│   │   ├── AccountHealthPage.tsx
+│   │   ├── ChatResponseDetailPage.tsx
+│   │   └── NfrDetailPage.tsx
+│   ├── auth
+│   │   ├── LoginPage.tsx
+│   │   ├── OnboardingPage.tsx
+│   │   └── SellerVerificationPage.tsx
+│   ├── ComingSoon.tsx
+│   ├── customer-service
+│   │   ├── AutoReplyPage.tsx
+│   │   ├── ChatAssistantPage.tsx
+│   │   ├── ChatPage.tsx
+│   │   ├── FaqAssistantPage.tsx
+│   │   ├── FaqDashboardPage.tsx
+│   │   ├── FaqDetailPage.tsx
+│   │   ├── HelpCenterPage.tsx
+│   │   ├── ReviewsPage.tsx
+│   │   ├── ShortcutsPage.tsx
+│   │   └── TicketHistoryPage.tsx
+│   ├── discounts
+│   │   ├── CreateDiscountPage.tsx
+│   │   └── DiscountListPage.tsx
+│   ├── finance
+│   │   ├── BankAccountsPage.tsx
+│   │   ├── IncomeStatementsPage.tsx
+│   │   ├── MyBalancePage.tsx
+│   │   ├── MyIncomePage.tsx
+│   │   └── TransactionDetailPage.tsx
+│   ├── home
+│   │   ├── BusinessInsightsPage.tsx
+│   │   └── HomeTodoListPage.tsx
+│   ├── insights
+│   │   ├── InsightsOverviewPage.tsx
+│   │   ├── MarketingInsightsPage.tsx
+│   │   ├── ProductInsightsPage.tsx
+│   │   ├── SalesInsightsPage.tsx
+│   │   ├── ServicesInsightsPage.tsx
+│   │   └── TrafficInsightsPage.tsx
+│   ├── live
+│   │   ├── CreateStreamingPricePage.tsx
+│   │   ├── CreateStreamPage.tsx
+│   │   ├── GoLivePage.tsx
+│   │   ├── GoLivePreviewPage.tsx
+│   │   ├── LiveAnalyticsPage.tsx
+│   │   ├── StreamingPricePage.tsx
+│   │   └── WatchPage.tsx
+│   ├── marketing
+│   │   ├── AdsPage.tsx
+│   │   ├── CampaignDetailPage.tsx
+│   │   ├── CampaignsPage.tsx
+│   │   ├── CreateDiscountPromotionPage.tsx
+│   │   ├── CreateFlashDealPage.tsx
+│   │   ├── create-voucher
+│   │   │   ├── VoucherBasicSection.tsx
+│   │   │   ├── VoucherDisplaySection.tsx
+│   │   │   ├── VoucherPreviewCard.tsx
+│   │   │   ├── VoucherRewardSection.tsx
+│   │   │   └── VoucherTypeSelector.tsx
+│   │   ├── CreateVoucherPage.tsx
+│   │   ├── CreatorsPage.tsx
+│   │   ├── FlashDealProductTable.tsx
+│   │   ├── FlashDealsPage.tsx
+│   │   ├── MarketingCentrePage.tsx
+│   │   ├── MarketingShippingPage.tsx
+│   │   ├── PromotionsListPage.tsx
+│   │   ├── ReviewPrizePage.tsx
+│   │   ├── VouchersPage.tsx
+│   │   └── VoucherTypeTiles.tsx
+│   ├── notifications
+│   │   └── NotificationPage.tsx
+│   ├── orders
+│   │   ├── MassShipPage.tsx
+│   │   ├── MassShipPanels.tsx
+│   │   ├── MassShipTable.tsx
+│   │   ├── MyOrdersPage.tsx
+│   │   ├── OrderDetailCards.tsx
+│   │   ├── OrderDetailsPage.tsx
+│   │   ├── ReturnDetailPage.tsx
+│   │   ├── ReturnDetailSidebar.tsx
+│   │   ├── ReturnEvidenceCards.tsx
+│   │   ├── ReturnsPage.tsx
+│   │   ├── ReturnsPanel.tsx
+│   │   └── ReturnTableRow.tsx
+│   ├── PlaceholderPage.tsx
+│   ├── products
+│   │   ├── AddNewProductPage.tsx
+│   │   ├── AddNewSizeChartPage.tsx
+│   │   ├── add-product
+│   │   │   ├── ShippingOthersFields.tsx
+│   │   │   └── UploadZone.tsx
+│   │   ├── AIImportReviewPage.tsx
+│   │   ├── AIImportReviewRow.tsx
+│   │   ├── AiOptimiserPage.tsx
+│   │   ├── BrandManagementPage.tsx
+│   │   ├── BrandRegistrationFormPage.tsx
+│   │   ├── EditProductPage.tsx
+│   │   ├── FullEditorModal.tsx
+│   │   ├── MassJobsTable.tsx
+│   │   ├── MassUploadPage.tsx
+│   │   ├── MyProductsPage.tsx
+│   │   ├── ProductBanners.tsx
+│   │   ├── ProductSettingPage.tsx
+│   │   ├── ProductsPage.tsx
+│   │   └── SizeChartManagementPage.tsx
+│   ├── setting
+│   │   ├── AccountSettingPage.tsx
+│   │   ├── ChatSettingsPage.tsx
+│   │   ├── MyAddressesPage.tsx
+│   │   ├── NotificationSettingsPage.tsx
+│   │   ├── PartnerManagementPage.tsx
+│   │   ├── PartnerPlatformPage.tsx
+│   │   ├── PaymentSettingPage.tsx
+│   │   ├── ProductSettingPage.tsx
+│   │   ├── SecurityProtectionPage.tsx
+│   │   ├── ShopSettingsPage.tsx
+│   │   └── VacationModePage.tsx
+│   ├── shipment
+│   │   ├── MassShipPage.tsx
+│   │   ├── MyShipmentPage.tsx
+│   │   └── ShippingSettingPage.tsx
+│   └── shop
+│       ├── AppealsPage.tsx
+│       ├── MediaSpacePage.tsx
+│       ├── MissionsPage.tsx
+│       ├── MyReportsPage.tsx
+│       ├── ShopCategoriesPage.tsx
+│       ├── ShopDecorationPage.tsx
+│       ├── ShopDecorationSubTabs.tsx
+│       ├── ShopDecorationTopPicksTab.tsx
+│       ├── ShopInformationPage.tsx
+│       └── ShopRatingPage.tsx
+├── styles
+│   └── tokens.css
+├── testing
+│   └── setup.ts
+├── tree_now.txt
+├── utils
+│   ├── formatDate.ts
+│   ├── formatSold.test.ts
+│   ├── formatSold.ts
+│   └── money.ts
+└── vite-env.d.ts
+
+123 directories, 553 files

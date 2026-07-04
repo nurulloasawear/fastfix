@@ -1,0 +1,62 @@
+{
+  "name": "ozb-seller",
+  "version": "0.1.0",
+  "description": "",
+  "scripts": {
+    "dev": "vite --port 4000 --host 0.0.0.0",
+    "test": "vitest run",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "typecheck": "tsc -b --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "private": "true",
+  "dependencies": {
+    "@cloudflare/realtimekit": "^1.5.1",
+    "@cloudflare/realtimekit-react": "^1.5.1",
+    "@cloudflare/realtimekit-react-ui": "^1.2.0",
+    "@tanstack/react-query": "^5.101.0",
+    "axios": "^1.18.0",
+    "hls.js": "^1.6.16",
+    "i18next": "^26.3.1",
+    "lucide-react": "^1.23.0",
+    "qrcode.react": "^4.2.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-easy-crop": "^6.0.2",
+    "react-hook-form": "^7.80.0",
+    "react-i18next": "^17.0.8",
+    "react-router-dom": "^7.17.0",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@tailwindcss/vite": "^4.3.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^25.9.4",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.2",
+    "eslint": "^10.5.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.3",
+    "globals": "^17.6.0",
+    "jsdom": "^29.1.1",
+    "msw": "^2.14.6",
+    "tailwindcss": "^4.3.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.61.1",
+    "vite": "^8.0.16",
+    "vitest": "^4.1.9"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
+}
