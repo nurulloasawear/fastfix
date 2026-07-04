@@ -22,6 +22,7 @@ import { homeMessages } from '@/features/home/i18n'
 import { liveMessages } from '@/features/live/i18n'
 import { goLiveMessages } from '@/features/golive/i18n'
 import { authMessages } from '@/features/auth/i18n'
+import { sellerVerificationMessages } from '@/features/seller-verification/i18n'
 import { errorsMessages } from './errors'
 
 export const LANGUAGES = ['uz', 'ru', 'en'] as const
@@ -50,6 +51,7 @@ function translationFor(lng: Language) {
     ...liveMessages[lng],
     ...goLiveMessages[lng],
     ...authMessages[lng],
+    ...sellerVerificationMessages[lng],
     products: productsMessages[lng],
     errors: errorsMessages[lng],
   }
